@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Brand {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  logoUrl     String?
+  description String?
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id               String   @id @default(cuid())
+  name             String
+  description      String
+  
+  // Pricing
+  price            Decimal
+  originalPrice    Decimal? // For discount
+  
+  // Media
+  imageUrl         String?
+  galleryUrls      String? // Comma-separated URLs
+  
+  // Status
+  isAvailable      Boolean  @default(true)
+  isPackage        Boolean  @default(false)
+  
+  // Ingredients (Notes)
+  topNotes         String?
+  heartNotes       String?
+  baseNotes        String?
+  
+  // Specs
+  originCountry    String?  @default("المملكة العربية السعودية")
+  gender           String?  @default("رجالي")
+  size             String?  @default("100 مل")
+  perfumeType      String?  @default("عطر فرنسي")
+  sku              String?
+  
+  // Relations
+  brandId          String?
+  brand            Brand?   @relation(fields: [brandId], references: [id])
+  
+  // Package relation
+  packageItems     Product[] @relation("PackageItems")
+  partOfPackages   Product[] @relation("PackageItems")
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model AdminUser {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LoginAttempt {
+  id           String    @id @default(cuid())
+  username     String    @unique
+  attempts     Int       @default(0)
+  blockedUntil DateTime?
+  updatedAt    DateTime  @updatedAt
+}

@@ -1,0 +1,93 @@
+'use client';
+
+import { loginAction } from '@/actions/auth';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Lock, LogIn } from 'lucide-react';
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleSubmit(formData: FormData) {
+    setLoading(true);
+    setError(null);
+    
+    const result = await loginAction(formData);
+    
+    if (result.success) {
+      router.push('/admin/products');
+      router.refresh();
+    } else {
+      setError(result.error || 'حدث خطأ في الدخول');
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#EDE3D6' }} dir="rtl">
+      <div className="max-w-md w-full rounded-2xl shadow-2xl p-8 border" style={{ backgroundColor: '#F5EFE6', borderColor: '#D4C5B0' }}>
+        <div className="text-center mb-8">
+          <div className="w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+            <img src="/logo/شعار.jpg" alt="الشعار" className="w-full h-full object-contain drop-shadow-xl" onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }} />
+          </div>
+          <h2 className="text-2xl font-black mb-2" style={{ color: '#1B2A4A' }}>تسجيل الدخول للإدارة</h2>
+          <p className="text-sm font-medium" style={{ color: '#8B7355' }}>يرجى إدخال البيانات للوصول إلى لوحة التحكم</p>
+        </div>
+
+        {error && (
+          <div className="mb-6 p-4 rounded-xl text-sm border text-center font-bold" style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', color: '#EF4444', borderColor: 'rgba(239, 68, 68, 0.2)' }}>
+            {error}
+          </div>
+        )}
+
+        <form action={handleSubmit} className="space-y-6">
+          <div>
+            <label htmlFor="username" className="block text-sm font-bold mb-2" style={{ color: '#1B2A4A' }}>اسم المستخدم</label>
+            <input 
+              type="text" 
+              id="username" 
+              name="username" 
+              className="w-full px-4 py-3 rounded-xl border outline-none transition-all text-left mb-4"
+              style={{ borderColor: '#D4C5B0', backgroundColor: 'white', color: '#1B2A4A' }}
+              placeholder="admin"
+              dir="ltr"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="password" className="block text-sm font-bold mb-2" style={{ color: '#1B2A4A' }}>كلمة المرور</label>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              className="w-full px-4 py-3 rounded-xl border outline-none transition-all text-left"
+              style={{ borderColor: '#D4C5B0', backgroundColor: 'white', color: '#1B2A4A' }}
+              placeholder="••••••••"
+              dir="ltr"
+            />
+          </div>
+
+          <button
+            type="submit" 
+            disabled={loading}
+            className="w-full font-bold py-4 rounded-xl flex justify-center items-center gap-2 transition-all hover:scale-105 shadow-xl disabled:opacity-70"
+            style={{ backgroundColor: '#1B2A4A', color: '#C9A96E' }}
+          >
+            {loading ? (
+              <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <>
+                <LogIn className="w-5 h-5" />
+                دخول
+              </>
+            )}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
