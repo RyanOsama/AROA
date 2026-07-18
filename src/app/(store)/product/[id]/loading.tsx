@@ -12,9 +12,6 @@ export default function ProductLoading() {
       <h2 className="mt-6 text-xl font-black text-black animate-pulse tracking-wider">
         جاري التحميل...
       </h2>
-      <p className="mt-2 text-sm text-gray-500 font-medium animate-pulse">
-        لحظات وننقلك لعالم أروى الساحر ✨
-      </p>
     </div>
   );
 }
