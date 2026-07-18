@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createProduct, updateProduct } from '@/actions/product';
 import { Save, Plus, Trash2, Search, Package, Upload } from 'lucide-react';
 import Image from 'next/image';
+import { uploadImageDirectly } from '@/utils/uploadImage';
 
 export default function PackageForm({ perfumes, brands, initialData }: { perfumes: any[], brands: any[], initialData?: any }) {
   const router = useRouter();
@@ -41,13 +42,9 @@ export default function PackageForm({ perfumes, brands, initialData }: { perfume
     if (!file) return;
 
     setUploadingImage(true);
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
-      const res = await fetch('/api/upload', { method: 'POST', body: formData });
-      const data = await res.json();
-      if (data.url) setImageUrl(data.url);
+      const url = await uploadImageDirectly(file);
+      if (url) setImageUrl(url);
     } catch (error) {
       console.error('Upload failed:', error);
     } finally {

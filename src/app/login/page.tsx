@@ -26,8 +26,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#EDE3D6' }} dir="rtl">
-      <div className="max-w-md w-full rounded-2xl shadow-2xl p-8 border" style={{ backgroundColor: '#F5EFE6', borderColor: '#D4C5B0' }}>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-white" dir="rtl">
+      <div className="max-w-md w-full rounded-2xl shadow-2xl p-8 border bg-white border-gray-100">
         <div className="text-center mb-8">
           <div className="w-24 h-24 mx-auto mb-6 flex items-center justify-center">
             <img src="/logo/agora-white.png" alt="الشعار" className="w-full h-full object-contain drop-shadow-xl invert opacity-90" onError={(e) => {
@@ -35,7 +35,7 @@ export default function LoginPage() {
             }} />
           </div>
           <h2 className="text-2xl font-black mb-2 text-black">تسجيل الدخول للإدارة</h2>
-          <p className="text-sm font-medium" style={{ color: '#8B7355' }}>يرجى إدخال البيانات للوصول إلى لوحة التحكم</p>
+          <p className="text-sm font-medium text-gray-500">يرجى إدخال البيانات للوصول إلى لوحة التحكم</p>
         </div>
 
         {error && (

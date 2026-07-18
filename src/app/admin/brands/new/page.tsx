@@ -3,6 +3,7 @@
 import { createBrand } from '@/actions/brand';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
+import { uploadImageDirectly } from '@/utils/uploadImage';
 import { ArrowRight, Save, Upload } from 'lucide-react';
 import Link from 'next/link';
 
@@ -25,20 +26,9 @@ export default function NewBrandPage() {
       let logoUrl = '';
 
       if (file) {
-        const uploadData = new FormData();
-        uploadData.append('file', file);
-        
-        const uploadRes = await fetch('/api/upload', {
-          method: 'POST',
-          body: uploadData,
-        });
-        
-        const uploadResult = await uploadRes.json();
-        
-        if (!uploadResult.success) {
-          throw new Error(uploadResult.error || 'فشل رفع الشعار');
-        }
-        logoUrl = uploadResult.url;
+        const url = await uploadImageDirectly(file);
+        if (!url) throw new Error('فشل رفع الشعار');
+        logoUrl = url;
       }
 
       if (logoUrl) {

@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="fixed inset-0 z-[9999] bg-[#EDE3D6] bg-opacity-80 backdrop-blur-sm flex flex-col items-center justify-center">
+    <div className="fixed inset-0 z-[9999] bg-white bg-opacity-90 backdrop-blur-sm flex flex-col items-center justify-center">
       <div className="relative w-32 h-32 flex items-center justify-center">
         {/* Spinning Horse Logo */}
         <img 

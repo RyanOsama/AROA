@@ -4,6 +4,7 @@ import { updateProduct, getProductById } from '@/actions/product';
 import { getBrands } from '@/actions/brand';
 import { useRouter } from 'next/navigation';
 import { useRef, useState, useEffect } from 'react';
+import { uploadImageDirectly } from '@/utils/uploadImage';
 import { ArrowRight, Save, Upload } from 'lucide-react';
 import Link from 'next/link';
 
@@ -42,12 +43,12 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     try {
       // Only upload main image if changed
       if (file) {
-        const uploadData = new FormData();
-        uploadData.append('file', file);
-        const uploadRes = await fetch('/api/upload', { method: 'POST', body: uploadData });
-        const uploadResult = await uploadRes.json();
-        if (!uploadResult.success) throw new Error(uploadResult.error || 'فشل رفع الصورة');
-        formData.set('imageUrl', uploadResult.url);
+        const imageUrl = await uploadImageDirectly(file);
+        if (imageUrl) {
+          formData.set('imageUrl', imageUrl);
+        } else {
+          throw new Error('فشل رفع الصورة الأساسية');
+        }
       } else if (initialData?.imageUrl) {
         formData.set('imageUrl', initialData.imageUrl);
       }
@@ -56,11 +57,8 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
       if (galleryFiles && galleryFiles.length > 0) {
         const galleryUrls: string[] = [];
         for (let i = 0; i < galleryFiles.length; i++) {
-          const gData = new FormData();
-          gData.append('file', galleryFiles[i]);
-          const gRes = await fetch('/api/upload', { method: 'POST', body: gData });
-          const gResult = await gRes.json();
-          if (gResult.success) galleryUrls.push(gResult.url);
+          const gUrl = await uploadImageDirectly(galleryFiles[i]);
+          if (gUrl) galleryUrls.push(gUrl);
         }
         if (galleryUrls.length > 0) {
           formData.set('galleryUrls', galleryUrls.join(','));
