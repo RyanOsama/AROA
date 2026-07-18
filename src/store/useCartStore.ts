@@ -54,7 +54,7 @@ export const useCartStore = create<CartState>()(
         });
       },
       clearCart: () => set({ items: [] }),
-      getTotalItems: () => get().items.reduce((total, item) => total + item.quantity, 0),
+      getTotalItems: () => get().items.length,
       getTotalPrice: () => get().items.reduce((total, item) => total + (item.price * item.quantity), 0),
     }),
     {

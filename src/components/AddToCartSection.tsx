@@ -39,19 +39,19 @@ export default function AddToCartSection({ product }: AddToCartSectionProps) {
         <span className="font-bold text-gray-700">الكمية</span>
         <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden">
           <button 
-            onClick={handleDecrement}
+            onClick={handleIncrement}
             className="px-4 py-2 hover:bg-gray-50 text-gray-600"
           >
-            -
+            +
           </button>
           <span className="px-4 py-2 border-x border-gray-200 font-medium w-12 text-center">
             {quantity}
           </span>
           <button 
-            onClick={handleIncrement}
+            onClick={handleDecrement}
             className="px-4 py-2 hover:bg-gray-50 text-gray-600"
           >
-            +
+            -
           </button>
         </div>
       </div>

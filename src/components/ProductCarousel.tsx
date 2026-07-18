@@ -11,7 +11,6 @@ export default function ProductCarousel({ products }: { products: any[] }) {
     { 
       align: 'start', 
       loop: false, 
-      direction: 'rtl',
       slidesToScroll: 1,
       breakpoints: {
         '(min-width: 640px)': { slidesToScroll: 2 },
@@ -50,9 +49,9 @@ export default function ProductCarousel({ products }: { products: any[] }) {
   }
 
   return (
-    <div className="relative group max-w-7xl mx-auto" dir="rtl">
+    <div className="relative group max-w-7xl mx-auto" dir="ltr">
       <div className="overflow-hidden py-4" ref={emblaRef}>
-        <div className="flex -ml-4">
+        <div className="flex gap-6">
           {products.map((product) => {
             const originalPrice = product.originalPrice ? Number(product.originalPrice) : null;
             const currentPrice = Number(product.price);
@@ -61,7 +60,7 @@ export default function ProductCarousel({ products }: { products: any[] }) {
               : null;
 
             return (
-              <div key={product.id} className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] md:flex-[0_0_33.33%] lg:flex-[0_0_25%] pl-4">
+              <div key={product.id} className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_calc(50%-12px)] md:flex-[0_0_calc(33.333%-16px)] lg:flex-[0_0_calc(25%-18px)]">
                 <Link
                   href={`/product/${product.id}`}
                   className="flex flex-col h-full bg-white rounded-3xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-500 group relative"
@@ -128,25 +127,25 @@ export default function ProductCarousel({ products }: { products: any[] }) {
 
       {/* Navigation Arrows */}
       <button
-        className="absolute top-1/2 -translate-y-1/2 right-2 md:-right-4 w-12 h-12 flex items-center justify-center bg-white text-black rounded-full shadow-xl border border-gray-100 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 disabled:opacity-0 hover:bg-gray-50"
-        onClick={scrollPrev}
-        disabled={!prevBtnEnabled}
-        aria-label="السابق"
+        className="absolute top-1/2 -translate-y-1/2 -right-4 w-12 h-12 flex items-center justify-center bg-white text-black rounded-full shadow-xl border border-gray-100 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 disabled:opacity-0 hover:bg-gray-50"
+        onClick={scrollNext}
+        disabled={!nextBtnEnabled}
+        aria-label="التالي"
       >
         <ChevronRight className="w-6 h-6" />
       </button>
 
       <button
-        className="absolute top-1/2 -translate-y-1/2 left-2 md:-left-4 w-12 h-12 flex items-center justify-center bg-white text-black rounded-full shadow-xl border border-gray-100 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 disabled:opacity-0 hover:bg-gray-50"
-        onClick={scrollNext}
-        disabled={!nextBtnEnabled}
-        aria-label="التالي"
+        className="absolute top-1/2 -translate-y-1/2 -left-4 w-12 h-12 flex items-center justify-center bg-white text-black rounded-full shadow-xl border border-gray-100 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 disabled:opacity-0 hover:bg-gray-50"
+        onClick={scrollPrev}
+        disabled={!prevBtnEnabled}
+        aria-label="السابق"
       >
         <ChevronLeft className="w-6 h-6" />
       </button>
 
       {/* Dots */}
-      <div className="flex justify-center items-center gap-2 mt-8">
+      <div className="flex justify-center items-center gap-2 mt-8" dir="ltr">
         {scrollSnaps.map((_, index) => (
           <button
             key={index}

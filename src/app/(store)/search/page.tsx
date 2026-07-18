@@ -3,8 +3,10 @@ import { getBrands } from '@/actions/brand';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ShoppingBag, ChevronRight } from 'lucide-react';
+import { Suspense } from 'react';
+import SearchLoading from './loading';
 
-export default async function SearchPage({
+async function SearchResults({
   searchParams,
 }: {
   searchParams: { q?: string; brand?: string; offers?: string; packages?: string };
@@ -128,5 +130,19 @@ export default async function SearchPage({
         )}
       </div>
     </div>
+  );
+}
+
+export default function SearchPage({
+  searchParams,
+}: {
+  searchParams: { q?: string; brand?: string; offers?: string; packages?: string };
+}) {
+  const suspenseKey = JSON.stringify(searchParams);
+  
+  return (
+    <Suspense key={suspenseKey} fallback={<SearchLoading />}>
+      <SearchResults searchParams={searchParams} />
+    </Suspense>
   );
 }

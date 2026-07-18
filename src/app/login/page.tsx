@@ -56,7 +56,6 @@ export default function LoginPage() {
               id="username" 
               name="username" 
               className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-all bg-white text-black"
-              placeholder="admin"
               dir="ltr"
             />
           </div>

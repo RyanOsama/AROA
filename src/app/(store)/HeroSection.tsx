@@ -39,7 +39,7 @@ export default function HeroSection({ products, stats }: { products?: any[], sta
         <div className="grid md:grid-cols-2 gap-12 items-center w-full py-20 md:py-28">
 
           {/* LEFT: Text */}
-          <div className="text-center md:text-right order-2 md:order-1">
+          <div className="text-center md:text-right order-1">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold tracking-[0.2em] mb-6"
               style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(0,0,0,0.5)', color: 'rgba(255,255,255,0.6)' }}>
               <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#ffffff' }} />
@@ -90,7 +90,7 @@ export default function HeroSection({ products, stats }: { products?: any[], sta
           </div>
 
           {/* RIGHT: Orbital Ferris Wheel */}
-          <div className="order-1 md:order-2 relative flex justify-center items-center" style={{ height: '650px' }}>
+          <div className="order-2 relative flex justify-center items-center h-[400px] md:h-[650px] mt-8 md:mt-0">
 
             {/* Static Logo in center */}
             <div className="absolute z-0 flex items-center justify-center">
@@ -101,7 +101,7 @@ export default function HeroSection({ products, stats }: { products?: any[], sta
             </div>
 
             {/* Inner decorative ring */}
-            <div className="absolute w-[260px] h-[260px] md:w-[380px] md:h-[380px] rounded-full border border-white/5 flex items-center justify-center z-0"
+            <div className="absolute w-[180px] h-[180px] md:w-[380px] md:h-[380px] rounded-full border border-white/5 flex items-center justify-center z-0"
               style={{ animation: 'reverse-spin-slow 40s linear infinite' }}>
               <div className="absolute top-0 w-1.5 h-1.5 bg-white/40 rounded-full shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
               <div className="absolute bottom-0 w-2 h-2 bg-white/10 rounded-full" />
@@ -109,7 +109,7 @@ export default function HeroSection({ products, stats }: { products?: any[], sta
             </div>
 
             {/* Outer ring — carries perfumes */}
-            <div className="relative w-[340px] h-[340px] md:w-[520px] md:h-[520px] rounded-full border border-white/10 flex items-center justify-center z-10 shadow-[inset_0_0_50px_rgba(255,255,255,0.02)]"
+            <div className="relative w-[280px] h-[280px] md:w-[520px] md:h-[520px] rounded-full border border-white/10 flex items-center justify-center z-10 shadow-[inset_0_0_50px_rgba(255,255,255,0.02)]"
               style={{ animation: 'spin-slow 45s linear infinite' }}>
 
               {displayProducts.map((p, index) => {
@@ -124,7 +124,7 @@ export default function HeroSection({ products, stats }: { products?: any[], sta
                     <div style={{ animation: 'reverse-spin-slow 45s linear infinite' }}>
                       <Link
                         href={`/product/${p.id}`}
-                        className="relative block w-24 h-32 md:w-36 md:h-48 group transition-all duration-500 hover:scale-125 hover:-translate-y-2"
+                        className="relative block w-16 h-24 md:w-36 md:h-48 group transition-all duration-500 hover:scale-125 hover:-translate-y-2"
                       >
                         <Image
                           src={p.imageUrl}

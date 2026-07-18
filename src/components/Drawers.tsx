@@ -88,9 +88,9 @@ export default function Drawers() {
                       <div className="flex justify-between items-end mt-2">
                         <span className="font-bold text-sm text-black">{item.price} ر.س</span>
                         <div className="flex items-center rounded-lg overflow-hidden border border-gray-200">
-                          <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="px-2 py-1 transition-colors text-black bg-gray-100 hover:bg-gray-200">-</button>
-                          <span className="px-2 text-sm font-bold w-8 text-center text-black bg-white">{item.quantity}</span>
                           <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="px-2 py-1 transition-colors text-black bg-gray-100 hover:bg-gray-200">+</button>
+                          <span className="px-2 text-sm font-bold w-8 text-center text-black bg-white">{item.quantity}</span>
+                          <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="px-2 py-1 transition-colors text-black bg-gray-100 hover:bg-gray-200">-</button>
                         </div>
                       </div>
                     </div>
