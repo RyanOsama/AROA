@@ -44,7 +44,11 @@ export default function LoginPage() {
           </div>
         )}
 
-        <form action={handleSubmit} className="space-y-6">
+        <form onSubmit={async (e) => {
+          e.preventDefault();
+          const formData = new FormData(e.currentTarget);
+          await handleSubmit(formData);
+        }} className="space-y-6">
           <div>
             <label htmlFor="username" className="block text-sm font-bold mb-2 text-black">اسم المستخدم</label>
             <input 
@@ -75,7 +79,7 @@ export default function LoginPage() {
             className="w-full font-bold py-4 rounded-xl transition-all duration-300 hover:shadow-lg disabled:opacity-50 flex items-center justify-center gap-2 bg-black text-white hover:bg-neutral-800"
           >
             {loading ? (
-              <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <img src="/logo/agora-white.png" alt="جاري التحميل..." className="w-6 h-6 object-contain invert animate-spin" />
             ) : (
               <>
                 <LogIn className="w-5 h-5" />

@@ -1,7 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile } from 'fs/promises';
-import { join } from 'path';
-
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,6 +9,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'لم يتم العثور على الصورة' }, { status: 400 });
     }
 
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseKey) {
+      console.error("Missing Supabase credentials in env");
+      return NextResponse.json({ success: false, error: 'إعدادات رفع الصور غير مكتملة' }, { status: 500 });
+    }
+
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
@@ -19,18 +24,31 @@ export async function POST(request: NextRequest) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     const filename = uniqueSuffix + '-' + file.name.replace(/[^a-zA-Z0-9.]/g, '_');
     
-    // Save to public/uploads
-    const uploadDir = join(process.cwd(), 'public', 'uploads');
-    const filepath = join(uploadDir, filename);
+    // Upload directly to Supabase Storage REST API
+    const uploadUrl = `${supabaseUrl}/storage/v1/object/images/${filename}`;
     
-    await writeFile(filepath, buffer);
-    
-    // Return the URL
-    const fileUrl = `/uploads/${filename}`;
+    const response = await fetch(uploadUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${supabaseKey}`,
+        'apikey': supabaseKey,
+        'Content-Type': file.type || 'image/png',
+      },
+      body: buffer,
+    });
+
+    if (!response.ok) {
+      const errData = await response.text();
+      console.error("Supabase Storage error:", errData);
+      return NextResponse.json({ success: false, error: 'فشل رفع الصورة إلى التخزين السحابي' }, { status: 500 });
+    }
+
+    // Return the public URL
+    const fileUrl = `${supabaseUrl}/storage/v1/object/public/images/${filename}`;
     
     return NextResponse.json({ success: true, url: fileUrl });
   } catch (error) {
     console.error("Error uploading file:", error);
-    return NextResponse.json({ success: false, error: 'فشل رفع الصورة' }, { status: 500 });
+    return NextResponse.json({ success: false, error: 'حدث خطأ غير متوقع أثناء الرفع' }, { status: 500 });
   }
 }
