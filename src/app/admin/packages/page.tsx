@@ -19,7 +19,7 @@ export default async function PackagesPage() {
         </div>
         <Link 
           href="/admin/packages/new" 
-          className="bg-[#1B2A4A] hover:bg-[#2D4172] text-white px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 transition-colors shadow-sm"
+          className="bg-black hover:bg-neutral-800 text-white px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 transition-colors shadow-sm"
         >
           <Plus className="w-5 h-5" />
           إضافة بكج جديد

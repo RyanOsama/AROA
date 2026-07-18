@@ -1,231 +1,163 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
-import ProductModal from '@/components/ProductModal';
+import Link from 'next/link';
 
-type HeroProduct = {
-  id: string;
-  name: string;
-  description: string | null;
-  price: any;
-  originalPrice: any;
-  imageUrl: string | null;
-  isAvailable: boolean;
-  topNotes: string | null;
-  heartNotes: string | null;
-  baseNotes: string | null;
-  originCountry: string | null;
-  gender: string | null;
-  size: string | null;
-  perfumeType: string | null;
-};
+export default function HeroSection({ products, stats }: { products?: any[], stats?: any }) {
+  const displayProducts = (products || []).slice(0, 4);
 
-const floatClasses = ['float-1', 'float-2', 'float-3', 'float-4', 'float-5'];
-
-// Positions for floating bottles
-const positions = [
-  { style: { left: '50%', top: '50%', transform: 'translate(-50%, -50%)', zIndex: 5 }, size: 'large' },
-  { style: { right: '-5%', top: '5%', zIndex: 3 }, size: 'medium' },
-  { style: { left: '-5%', top: '15%', zIndex: 2 }, size: 'medium' },
-  { style: { right: '5%', bottom: '0%', zIndex: 4 }, size: 'small' },
-  { style: { left: '10%', bottom: '-5%', zIndex: 3 }, size: 'small' },
-];
-
-const sizeMap = {
-  large: { w: 120, h: 200 },
-  medium: { w: 80, h: 130 },
-  small: { w: 60, h: 100 },
-};
-
-export default function HeroSection({ 
-  products, 
-  stats = { products: 50, brands: 10, clients: 120 } 
-}: { 
-  products: HeroProduct[], 
-  stats?: { products: number, brands: number, clients: number } 
-}) {
-  const [selectedProduct, setSelectedProduct] = useState<HeroProduct | null>(null);
-
-  const openModal = (product: HeroProduct) => setSelectedProduct(product);
-  const closeModal = () => setSelectedProduct(null);
+  const scrollToBestSellers = () => {
+    document.getElementById('best-sellers')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    <>
-      {/* Modal */}
-      {selectedProduct && (
-        <ProductModal
-          product={{
-            id: selectedProduct.id,
-            name: selectedProduct.name,
-            description: selectedProduct.description,
-            price: Number(selectedProduct.price),
-            originalPrice: selectedProduct.originalPrice ? Number(selectedProduct.originalPrice) : null,
-            imageUrl: selectedProduct.imageUrl,
-            isAvailable: selectedProduct.isAvailable,
-            topNotes: selectedProduct.topNotes,
-            heartNotes: selectedProduct.heartNotes,
-            baseNotes: selectedProduct.baseNotes,
-            originCountry: selectedProduct.originCountry,
-            gender: selectedProduct.gender,
-            size: selectedProduct.size,
-            perfumeType: selectedProduct.perfumeType,
-          }}
-          onClose={closeModal}
-        />
-      )}
+    <section className="relative overflow-hidden" style={{ minHeight: '94vh', background: '#050505' }}>
 
-      {/* ===== HERO SECTION ===== */}
-      <section
-        className="relative overflow-hidden"
-        style={{
-          minHeight: '92vh',
-          background: 'linear-gradient(145deg, #F5EFE6 0%, #EDE3D6 40%, #E8DDCC 70%, #F0E8DA 100%)',
-        }}
-      >
-        {/* Decorative circles */}
-        <div className="absolute top-[-80px] right-[-80px] w-[450px] h-[450px] rounded-full opacity-20 pointer-events-none" style={{ background: 'radial-gradient(circle, #1B2A4A, transparent)' }} />
-        <div className="absolute bottom-[-60px] left-[-60px] w-[350px] h-[350px] rounded-full opacity-15 pointer-events-none" style={{ background: 'radial-gradient(circle, #C9A96E, transparent)' }} />
+      {/* Background Glows */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
+        <div style={{
+          position: 'absolute', top: '-10%', left: '-5%',
+          width: '55vw', height: '55vw', borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)',
+          filter: 'blur(60px)', animation: 'pulseOrb 8s ease-in-out infinite',
+        }} />
+        <div style={{
+          position: 'absolute', bottom: '-5%', right: '-5%',
+          width: '45vw', height: '45vw', borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)',
+          filter: 'blur(70px)', animation: 'pulseOrb 12s ease-in-out infinite',
+        }} />
+      </div>
 
-        {/* Grid dots */}
-        <div
-          className="absolute inset-0 opacity-[0.06] pointer-events-none"
-          style={{
-            backgroundImage: 'radial-gradient(circle, #1B2A4A 1px, transparent 1px)',
-            backgroundSize: '40px 40px',
-          }}
-        />
+      <div className="absolute pointer-events-none" style={{
+        top: '50%', left: 0, right: 0, height: '1px',
+        background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%)',
+        zIndex: 1,
+      }} />
 
-        <div className="container mx-auto px-6 h-full flex items-center relative z-10">
-          <div className="grid md:grid-cols-2 gap-12 items-center w-full py-24">
+      <div className="container mx-auto px-6 relative flex items-center h-full z-10">
+        <div className="grid md:grid-cols-2 gap-12 items-center w-full py-20 md:py-28">
 
-            {/* Left: Text */}
-            <div className="text-center md:text-right order-1">
-              <div className="fade-up-1 inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold tracking-[0.25em] mb-8" style={{ backgroundColor: '#1B2A4A', color: '#C9A96E' }}>
-                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: '#C9A96E' }} />
-                مجموعة حصرية ٢٠٢٥
+          {/* LEFT: Text */}
+          <div className="text-center md:text-right order-2 md:order-1">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold tracking-[0.2em] mb-6"
+              style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(0,0,0,0.5)', color: 'rgba(255,255,255,0.6)' }}>
+              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#ffffff' }} />
+              المجموعة الحصرية
+            </div>
+
+            <p className="text-sm font-bold tracking-widest mb-2" style={{ color: 'rgba(255,255,255,0.45)' }}>
+              ترحيب بك في عالمنا
+            </p>
+
+            <h1 className="font-black leading-[1.1] mb-5" style={{ fontSize: 'clamp(2.5rem,6vw,4.8rem)', color: '#ffffff' }}>
+              قوة <br />
+              <span style={{ color: 'rgba(255,255,255,0.6)' }}>الحضور</span>
+            </h1>
+
+            <p className="leading-relaxed mb-8 max-w-sm mx-auto md:mr-auto md:ml-0 text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>
+              اكتشف مجموعتنا الفاخرة من العطور المصممة خصيصاً لتعكس شخصيتك الفريدة وتترك أثراً لا يُنسى.
+            </p>
+
+            {stats && (
+              <div className="flex items-center gap-6 justify-center md:justify-end mb-8">
+                <div className="text-center">
+                  <div className="text-2xl font-black" style={{ color: '#ffffff' }}>{stats.products}+</div>
+                  <div className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>عطر</div>
+                </div>
+                <div className="w-px h-8" style={{ background: 'rgba(255,255,255,0.1)' }} />
+                <div className="text-center">
+                  <div className="text-2xl font-black" style={{ color: '#ffffff' }}>{stats.brands}+</div>
+                  <div className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>ماركة</div>
+                </div>
+                <div className="w-px h-8" style={{ background: 'rgba(255,255,255,0.1)' }} />
+                <div className="text-center">
+                  <div className="text-2xl font-black" style={{ color: '#ffffff' }}>{stats.clients}+</div>
+                  <div className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>عميل</div>
+                </div>
               </div>
+            )}
 
-              <h1 className="fade-up-2 font-black leading-[1.1] tracking-tight mb-6" style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', color: '#1B2A4A' }}>
-                اكتشف
-                <br />
-                <span style={{ color: '#8B7355', fontStyle: 'italic' }}>روحك</span>
-                <br />
-                في عطر
-              </h1>
+            <button
+              onClick={scrollToBestSellers}
+              className="group relative px-10 py-4 rounded-full font-bold text-sm tracking-wide transition-all duration-300 hover:scale-105 overflow-hidden"
+              style={{ background: '#ffffff', color: '#000000', boxShadow: '0 0 30px rgba(255,255,255,0.15)' }}
+            >
+              <span className="relative z-10">تسوق الآن ←</span>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{ background: '#f0f0f0' }} />
+            </button>
+          </div>
 
-              <p className="fade-up-3 text-lg leading-relaxed mb-10 max-w-md mx-auto md:mr-auto md:ml-0" style={{ color: '#6B5B45' }}>
-                تشكيلة فاخرة من أرقى العطور العالمية، مصممة خصيصاً لمن يسعى إلى التميّز في كل لحظة.
-              </p>
+          {/* RIGHT: Orbital Ferris Wheel */}
+          <div className="order-1 md:order-2 relative flex justify-center items-center" style={{ height: '650px' }}>
 
-              <div className="fade-up-4 flex items-center justify-center md:justify-end flex-wrap gap-4">
-                <a
-                  href="#best-sellers"
-                  className="btn-shimmer px-10 py-4 rounded-full font-bold text-sm tracking-wide text-white shadow-xl hover:scale-105 transition-transform"
-                >
-                  تسوّق الآن
-                </a>
-              </div>
-
-              {/* Stats */}
-              <div className="fade-up-4 flex gap-8 mt-14 justify-center md:justify-end">
-                {[
-                  { num: `+${stats.products}`, label: 'منتج' },
-                  { num: `+${stats.brands}`, label: 'شركة' },
-                  { num: `+${stats.clients}`, label: 'عميل' },
-                ].map((stat) => (
-                  <div key={stat.label} className="text-center md:text-right">
-                    <p className="text-3xl font-black" style={{ color: '#1B2A4A' }}>{stat.num}</p>
-                    <p className="text-xs tracking-widest" style={{ color: '#8B7355' }}>{stat.label}</p>
-                  </div>
-                ))}
+            {/* Static Logo in center */}
+            <div className="absolute z-0 flex items-center justify-center">
+              <div className="absolute w-[150px] h-[150px] bg-white/5 rounded-full blur-3xl animate-pulse" />
+              <div className="relative w-28 h-28 md:w-40 md:h-40 z-10">
+                <Image src="/logo/agora-white.png" alt="AROA Logo" fill className="object-contain opacity-90 drop-shadow-[0_0_20px_rgba(255,255,255,0.15)]" />
               </div>
             </div>
 
-            {/* Right: Real Floating Product Images */}
-            <div className="scale-in order-2 relative flex items-center justify-center min-h-[350px] md:min-h-[460px]">
-              {/* Glow behind */}
-              <div
-                className="absolute inset-0 rounded-full blur-[80px] opacity-25"
-                style={{ background: 'radial-gradient(circle, #C9A96E 0%, transparent 70%)' }}
-              />
-              {/* Decorative rings */}
-              <div className="absolute w-[300px] h-[300px] rounded-full border opacity-20" style={{ borderColor: '#1B2A4A' }} />
-              <div className="absolute w-[400px] h-[400px] rounded-full border opacity-10" style={{ borderColor: '#1B2A4A' }} />
+            {/* Inner decorative ring */}
+            <div className="absolute w-[260px] h-[260px] md:w-[380px] md:h-[380px] rounded-full border border-white/5 flex items-center justify-center z-0"
+              style={{ animation: 'reverse-spin-slow 40s linear infinite' }}>
+              <div className="absolute top-0 w-1.5 h-1.5 bg-white/40 rounded-full shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
+              <div className="absolute bottom-0 w-2 h-2 bg-white/10 rounded-full" />
+              <div className="absolute left-0 w-1 h-1 bg-white/20 rounded-full" />
+            </div>
 
-              <div className="relative w-[300px] h-[350px] md:w-[380px] md:h-[420px] scale-75 md:scale-100 origin-center">
-                {products.slice(0, 5).map((product, idx) => {
-                  const pos = positions[idx];
-                  const sz = sizeMap[pos.size as keyof typeof sizeMap];
-                  const floatClass = floatClasses[idx];
+            {/* Outer ring — carries perfumes */}
+            <div className="relative w-[340px] h-[340px] md:w-[520px] md:h-[520px] rounded-full border border-white/10 flex items-center justify-center z-10 shadow-[inset_0_0_50px_rgba(255,255,255,0.02)]"
+              style={{ animation: 'spin-slow 45s linear infinite' }}>
 
-                  return (
-                    <button
-                      key={product.id}
-                      onClick={() => openModal(product)}
-                      className={`${floatClass} absolute group cursor-pointer ${pos.size === 'small' ? 'hidden md:block' : ''}`}
-                      style={pos.style}
-                      title={product.name}
-                    >
-                      <div
-                        className="relative rounded-2xl overflow-hidden transition-all duration-300 group-hover:scale-110 group-hover:shadow-2xl"
-                        style={{ width: sz.w, height: sz.h }}
+              {displayProducts.map((p, index) => {
+                let positionClasses = "";
+                if (index === 0) positionClasses = "top-0 left-1/2 -translate-x-1/2 -translate-y-1/2";
+                else if (index === 1) positionClasses = "right-0 top-1/2 -translate-y-1/2 translate-x-1/2";
+                else if (index === 2) positionClasses = "bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2";
+                else if (index === 3) positionClasses = "left-0 top-1/2 -translate-y-1/2 -translate-x-1/2";
+
+                return (
+                  <div key={p.id} className={`absolute z-20 ${positionClasses}`}>
+                    <div style={{ animation: 'reverse-spin-slow 45s linear infinite' }}>
+                      <Link
+                        href={`/product/${p.id}`}
+                        className="relative block w-24 h-32 md:w-36 md:h-48 group transition-all duration-500 hover:scale-125 hover:-translate-y-2"
                       >
-                        {product.imageUrl ? (
-                          <Image
-                            src={product.imageUrl}
-                            alt={product.name}
-                            fill
-                            className="object-contain mix-blend-multiply drop-shadow-xl"
-                            unoptimized
-                          />
-                        ) : (
-                          <div
-                            className="w-full h-full flex items-center justify-center font-serif font-black text-sm"
-                            style={{
-                              background: 'linear-gradient(145deg, #1B2A4A, #2D4172)',
-                              color: '#C9A96E',
-                            }}
-                          >
-                            {product.name.substring(0, 2)}
-                          </div>
-                        )}
-                        {/* Hover label */}
-                        <div
-                          className="absolute inset-0 flex items-end justify-center pb-2 opacity-0 group-hover:opacity-100 transition-all duration-300"
-                          style={{ background: 'linear-gradient(to top, rgba(27,42,74,0.8), transparent)' }}
-                        >
-                          <span className="text-[10px] font-bold text-center px-1 line-clamp-1" style={{ color: '#C9A96E' }}>
-                            {product.name}
-                          </span>
-                        </div>
-                      </div>
-                    </button>
-                  );
-                })}
-
-                {/* Fallback if no products */}
-                {products.length === 0 && (
-                  <div className="float-1 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <div className="w-28 h-48 rounded-2xl flex items-center justify-center font-serif font-black text-2xl" style={{ background: 'linear-gradient(145deg, #1B2A4A, #2D4172)', color: '#C9A96E' }}>A</div>
+                        <Image
+                          src={p.imageUrl}
+                          alt={p.name}
+                          fill
+                          className="object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.8)]"
+                        />
+                        <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 blur-2xl rounded-full transition-opacity duration-500" />
+                      </Link>
+                    </div>
                   </div>
-                )}
-
-                {/* Sparkles */}
-                <div className="absolute top-12 left-1/3 w-2 h-2 rounded-full opacity-60 animate-pulse" style={{ backgroundColor: '#C9A96E' }} />
-                <div className="absolute bottom-20 right-1/4 w-1.5 h-1.5 rounded-full opacity-50 animate-pulse" style={{ backgroundColor: '#1B2A4A', animationDelay: '0.8s' }} />
-              </div>
+                );
+              })}
             </div>
           </div>
-        </div>
 
-        {/* Bottom wave */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#F5EFE6" />
-          </svg>
         </div>
-      </section>
-    </>
+      </div>
+
+      <style>{`
+        @keyframes pulseOrb {
+          0%, 100% { transform: scale(1) translate(0, 0); opacity: 1; }
+          50% { transform: scale(1.08) translate(2%, 2%); opacity: 0.85; }
+        }
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes reverse-spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(-360deg); }
+        }
+      `}</style>
+    </section>
   );
 }

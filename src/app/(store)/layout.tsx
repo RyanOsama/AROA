@@ -66,10 +66,10 @@ export default async function StoreLayout({
         }
         .card-hover:hover {
           transform: translateY(-10px) scale(1.02);
-          box-shadow: 0 24px 60px rgba(27,42,74,0.18);
+          box-shadow: 0 24px 60px rgba(0,0,0,0.18);
         }
         .btn-shimmer {
-          background: linear-gradient(90deg, #1B2A4A 0%, #2D4172 40%, #4A6FA8 60%, #1B2A4A 100%);
+          background: linear-gradient(90deg, #000000 0%, #333333 40%, #666666 60%, #000000 100%);
           background-size: 200% auto;
           animation: shimmer 2.5s linear infinite;
         }
@@ -90,35 +90,35 @@ export default async function StoreLayout({
       <RecommendedSection products={recommendedProducts} />
 
       {/* Footer */}
-      <footer className="py-20" style={{ backgroundColor: '#1B2A4A' }}>
+      <footer className="py-20" style={{ backgroundColor: '#000000' }}>
         <div className="container mx-auto px-6 text-center">
           <div className="w-24 h-24 mx-auto mb-6">
-            <img src="/logo/شعار.jpg" alt="الشعار" className="w-full h-full object-contain brightness-0 invert opacity-80 hover:opacity-100 transition-opacity" />
+            <img src="/logo/agora-white.png" alt="الشعار" className="w-full h-full object-contain opacity-80 hover:opacity-100 transition-opacity drop-shadow-md" />
           </div>
-          <p className="font-black text-2xl tracking-[0.3em] mb-2" style={{ color: '#F5EFE6' }}>AROA PERFUMES</p>
-          <p className="text-sm tracking-widest mb-8" style={{ color: '#C9A96E' }}>Luxury Scents · Timeless Elegance</p>
+          <p className="font-black text-2xl tracking-[0.3em] mb-2" style={{ color: '#ffffff' }}>AROA PERFUMES</p>
+          <p className="text-sm tracking-widest mb-8" style={{ color: 'rgba(255,255,255,0.5)' }}>Luxury Scents · Timeless Elegance</p>
           
           {/* Social Links */}
           <div className="flex items-center justify-center gap-6 mb-8">
-            <a href="https://wa.me/967780791584" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 hover:bg-[#C9A96E] flex items-center justify-center transition-all duration-300 group">
-              <MessageCircle className="w-5 h-5 text-gray-300 group-hover:text-white" />
+            <a href="https://wa.me/967780791584" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 group hover:bg-white/10" style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
+              <MessageCircle className="w-5 h-5 text-white/50 group-hover:text-white" />
             </a>
-            <a href="https://instagram.com/aroa_perfumes" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 hover:bg-[#C9A96E] flex items-center justify-center transition-all duration-300 group">
-              <Instagram className="w-5 h-5 text-gray-300 group-hover:text-white" />
+            <a href="https://instagram.com/aroa_perfumes" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 group hover:bg-white/10" style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
+              <Instagram className="w-5 h-5 text-white/50 group-hover:text-white" />
             </a>
-            <a href="https://snapchat.com/add/aroa_perfumes" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 hover:bg-[#C9A96E] flex items-center justify-center transition-all duration-300 group">
-              <Ghost className="w-5 h-5 text-gray-300 group-hover:text-white" />
+            <a href="https://snapchat.com/add/aroa_perfumes" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 group hover:bg-white/10" style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
+              <Ghost className="w-5 h-5 text-white/50 group-hover:text-white" />
             </a>
-            <a href="https://twitter.com/aroa_perfumes" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 hover:bg-[#C9A96E] flex items-center justify-center transition-all duration-300 group">
-              <Twitter className="w-5 h-5 text-gray-300 group-hover:text-white" />
+            <a href="https://twitter.com/aroa_perfumes" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 group hover:bg-white/10" style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
+              <Twitter className="w-5 h-5 text-white/50 group-hover:text-white" />
             </a>
-            <a href="https://facebook.com/aroa_perfumes" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 hover:bg-[#C9A96E] flex items-center justify-center transition-all duration-300 group">
-              <Facebook className="w-5 h-5 text-gray-300 group-hover:text-white" />
+            <a href="https://facebook.com/aroa_perfumes" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 group hover:bg-white/10" style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
+              <Facebook className="w-5 h-5 text-white/50 group-hover:text-white" />
             </a>
           </div>
 
-          <div className="w-32 h-px mx-auto mb-8" style={{ background: 'linear-gradient(90deg, transparent, #C9A96E, transparent)' }} />
-          <p className="text-sm" style={{ color: '#4A6FA8' }}>© {new Date().getFullYear()} AROA Perfumes. جميع الحقوق محفوظة.</p>
+          <div className="w-32 h-px mx-auto mb-8" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)' }} />
+          <p className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>© {new Date().getFullYear()} AROA Perfumes. جميع الحقوق محفوظة.</p>
         </div>
       </footer>
     </div>

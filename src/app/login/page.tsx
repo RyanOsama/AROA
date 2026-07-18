@@ -30,11 +30,11 @@ export default function LoginPage() {
       <div className="max-w-md w-full rounded-2xl shadow-2xl p-8 border" style={{ backgroundColor: '#F5EFE6', borderColor: '#D4C5B0' }}>
         <div className="text-center mb-8">
           <div className="w-24 h-24 mx-auto mb-6 flex items-center justify-center">
-            <img src="/logo/شعار.jpg" alt="الشعار" className="w-full h-full object-contain drop-shadow-xl" onError={(e) => {
+            <img src="/logo/agora-white.png" alt="الشعار" className="w-full h-full object-contain drop-shadow-xl invert opacity-90" onError={(e) => {
               (e.target as HTMLImageElement).style.display = 'none';
             }} />
           </div>
-          <h2 className="text-2xl font-black mb-2" style={{ color: '#1B2A4A' }}>تسجيل الدخول للإدارة</h2>
+          <h2 className="text-2xl font-black mb-2 text-black">تسجيل الدخول للإدارة</h2>
           <p className="text-sm font-medium" style={{ color: '#8B7355' }}>يرجى إدخال البيانات للوصول إلى لوحة التحكم</p>
         </div>
 
@@ -46,26 +46,24 @@ export default function LoginPage() {
 
         <form action={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="username" className="block text-sm font-bold mb-2" style={{ color: '#1B2A4A' }}>اسم المستخدم</label>
+            <label htmlFor="username" className="block text-sm font-bold mb-2 text-black">اسم المستخدم</label>
             <input 
               type="text" 
               id="username" 
               name="username" 
-              className="w-full px-4 py-3 rounded-xl border outline-none transition-all text-left mb-4"
-              style={{ borderColor: '#D4C5B0', backgroundColor: 'white', color: '#1B2A4A' }}
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-all bg-white text-black"
               placeholder="admin"
               dir="ltr"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-bold mb-2" style={{ color: '#1B2A4A' }}>كلمة المرور</label>
+            <label htmlFor="password" className="block text-sm font-bold mb-2 text-black">كلمة المرور</label>
             <input 
               type="password" 
               id="password" 
               name="password" 
-              className="w-full px-4 py-3 rounded-xl border outline-none transition-all text-left"
-              style={{ borderColor: '#D4C5B0', backgroundColor: 'white', color: '#1B2A4A' }}
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-all bg-white text-black"
               placeholder="••••••••"
               dir="ltr"
             />
@@ -74,8 +72,7 @@ export default function LoginPage() {
           <button
             type="submit" 
             disabled={loading}
-            className="w-full font-bold py-4 rounded-xl flex justify-center items-center gap-2 transition-all hover:scale-105 shadow-xl disabled:opacity-70"
-            style={{ backgroundColor: '#1B2A4A', color: '#C9A96E' }}
+            className="w-full font-bold py-4 rounded-xl transition-all duration-300 hover:shadow-lg disabled:opacity-50 flex items-center justify-center gap-2 bg-black text-white hover:bg-neutral-800"
           >
             {loading ? (
               <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />

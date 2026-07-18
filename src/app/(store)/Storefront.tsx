@@ -5,11 +5,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ShoppingBag, ChevronLeft, Percent, Gift } from 'lucide-react';
 import { Product as PrismaProduct, Brand } from '@prisma/client';
+import ProductCarousel from '@/components/ProductCarousel';
 
 type Product = PrismaProduct & { originalPrice: any; price: any; brand?: { name: string } | null; isPackage?: boolean };
 type StorefrontProps = {
-  initialProducts: Product[];
-  brands: (Brand & { products: Product[] })[];
+  initialProducts: any[];
+  brands: any[];
 };
 
 export default function Storefront({ initialProducts, brands }: StorefrontProps) {
@@ -30,85 +31,17 @@ export default function Storefront({ initialProducts, brands }: StorefrontProps)
     ? initialProducts.filter(p => p.brandId === activeBrandId)
     : initialProducts;
 
-  const renderProductGrid = (products: Product[], emptyMessage: string) => {
-    if (!products || products.length === 0) {
+  const renderProductGrid = (productList: any[], emptyMessage: string) => {
+    if (!productList || productList.length === 0) {
       return (
-        <div className="text-center py-20 rounded-3xl border-2 border-dashed border-gray-200 text-gray-400">
-          <ShoppingBag className="w-12 h-12 mx-auto mb-4 opacity-30" />
-          <p className="font-medium">{emptyMessage}</p>
+        <div className="flex flex-col items-center justify-center py-20 text-center bg-gray-50 rounded-3xl border border-dashed border-gray-200">
+          <ShoppingBag className="w-12 h-12 text-gray-300 mb-4" />
+          <p className="text-gray-500 font-medium">{emptyMessage}</p>
         </div>
       );
     }
 
-    return (
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-        {products.map((product) => {
-          const discountPercentage = product.originalPrice && Number(product.originalPrice) > Number(product.price)
-            ? Math.round(((Number(product.originalPrice) - Number(product.price)) / Number(product.originalPrice)) * 100)
-            : null;
-
-          return (
-            <Link
-              href={`/product/${product.id}`}
-              key={product.id}
-              className="group flex flex-col rounded-[2rem] overflow-hidden text-right w-full bg-white border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
-            >
-              {/* Image Container */}
-              <div
-                className="relative overflow-hidden flex items-center justify-center bg-white"
-                style={{ aspectRatio: '4/5' }}
-              >
-                {discountPercentage && (
-                  <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold z-10 bg-[#1B2A4A] text-[#C9A96E]">
-                    خصم {discountPercentage}%
-                  </div>
-                )}
-                {product.isPackage && !discountPercentage && (
-                  <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold z-10 bg-[#8B7355] text-white">
-                    عرض خاص
-                  </div>
-                )}
-
-                {product.imageUrl ? (
-                  <div className="w-full h-full relative group-hover:scale-105 transition-transform duration-500">
-                    <Image
-                      src={product.imageUrl}
-                      alt={product.name}
-                      fill
-                      className="object-contain p-6"
-                      unoptimized
-                    />
-                  </div>
-                ) : (
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-gray-50">
-                    <ShoppingBag className="w-8 h-8 text-gray-300" />
-                  </div>
-                )}
-              </div>
-
-              {/* Content Container */}
-              <div className="p-5 flex flex-col flex-grow bg-white border-t border-gray-50" dir="rtl">
-                <h3 className="font-bold text-gray-900 text-base mb-1 line-clamp-1">{product.name}</h3>
-                <p className="text-xs text-gray-500 line-clamp-2 mb-4 flex-grow leading-relaxed">{product.description}</p>
-
-                <div className="flex items-center justify-between mt-auto">
-                  <div>
-                    <span className="text-xl font-black text-gray-900">{Number(product.price)}</span>
-                    <span className="text-xs text-gray-500 mr-1"> ر.س</span>
-                    {product.originalPrice && (
-                      <div className="text-xs text-gray-400 line-through mt-0.5">{Number(product.originalPrice)} ر.س</div>
-                    )}
-                  </div>
-                  <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center group-hover:bg-[#1B2A4A] group-hover:text-white transition-colors text-gray-700">
-                    <ShoppingBag className="w-4 h-4" />
-                  </div>
-                </div>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
-    );
+    return <ProductCarousel products={productList} />;
   };
 
   return (
@@ -117,9 +50,9 @@ export default function Storefront({ initialProducts, brands }: StorefrontProps)
       <section id="best-sellers" className="py-16 md:py-24">
         <div className="container mx-auto px-6">
           <div className="flex flex-col items-center mb-12">
-            <p className="text-xs tracking-widest font-bold uppercase mb-2 text-[#C9A96E]">مميز</p>
+            <p className="text-xs tracking-widest font-bold uppercase mb-2 text-gray-500">مميز</p>
             <h2 className="text-3xl md:text-4xl font-black text-gray-900">الأكثر مبيعاً</h2>
-            <div className="w-12 h-1 bg-[#C9A96E] mt-4 rounded-full"></div>
+            <div className="w-12 h-1 bg-black mt-4 rounded-full"></div>
           </div>
           {renderProductGrid(bestSellers, "لا توجد منتجات حالياً")}
         </div>
@@ -141,11 +74,11 @@ export default function Storefront({ initialProducts, brands }: StorefrontProps)
         <section id="packages" className="py-16 md:py-24">
           <div className="container mx-auto px-6">
             <div className="flex flex-col items-center mb-12">
-              <div className="w-12 h-12 bg-[#F5EFE6] rounded-full flex items-center justify-center mb-4 text-[#8B7355]">
+              <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-4 text-gray-800">
                 <Gift className="w-6 h-6" />
               </div>
               <h2 className="text-3xl md:text-4xl font-black text-gray-900">مجموعات العروض</h2>
-              <div className="w-12 h-1 bg-[#8B7355] mt-4 rounded-full"></div>
+              <div className="w-12 h-1 bg-black mt-4 rounded-full"></div>
             </div>
             {renderProductGrid(packages, "لا توجد مجموعات عروض حالياً")}
           </div>
@@ -163,17 +96,17 @@ export default function Storefront({ initialProducts, brands }: StorefrontProps)
             <button 
               onClick={() => setSelectedGender(selectedGender === 'رجالي' ? null : 'رجالي')}
               className={`relative overflow-hidden rounded-[2rem] p-12 text-center transition-all duration-300 ${selectedGender === 'رجالي' ? 'ring-4 ring-gray-900' : 'hover:shadow-lg'}`}
-              style={{ background: 'linear-gradient(135deg, #1B2A4A, #2D4172)' }}
+              style={{ background: 'linear-gradient(135deg, #000000, #333333)' }}
             >
               <h3 className="text-3xl font-black text-white relative z-10">عطور رجالية</h3>
               <div className="absolute -bottom-10 -right-10 opacity-10 text-9xl">👨</div>
             </button>
             <button 
               onClick={() => setSelectedGender(selectedGender === 'نسائي' ? null : 'نسائي')}
-              className={`relative overflow-hidden rounded-[2rem] p-12 text-center transition-all duration-300 ${selectedGender === 'نسائي' ? 'ring-4 ring-[#C9A96E]' : 'hover:shadow-lg'}`}
-              style={{ background: 'linear-gradient(135deg, #FDFBF7, #F5EFE6)' }}
+              className={`relative overflow-hidden rounded-[2rem] p-12 text-center transition-all duration-300 ${selectedGender === 'نسائي' ? 'ring-4 ring-gray-400' : 'hover:shadow-lg'}`}
+              style={{ background: 'linear-gradient(135deg, #F9FAFB, #E5E7EB)' }}
             >
-              <h3 className="text-3xl font-black text-[#8B7355] relative z-10">عطور نسائية</h3>
+              <h3 className="text-3xl font-black text-black relative z-10">عطور نسائية</h3>
               <div className="absolute -bottom-10 -right-10 opacity-10 text-9xl">👩</div>
             </button>
           </div>
@@ -202,7 +135,7 @@ export default function Storefront({ initialProducts, brands }: StorefrontProps)
         <div className="container mx-auto px-6">
           <div className="flex flex-col items-center mb-12">
             <h2 className="text-3xl md:text-4xl font-black text-gray-900">تسوق حسب الماركة</h2>
-            <div className="w-12 h-1 bg-[#1B2A4A] mt-4 rounded-full"></div>
+            <div className="w-12 h-1 bg-black mt-4 rounded-full"></div>
           </div>
           
           <div className="flex flex-wrap items-center justify-center gap-4 mb-12">
@@ -210,8 +143,8 @@ export default function Storefront({ initialProducts, brands }: StorefrontProps)
               onClick={() => setActiveBrandId(null)}
               className={`px-8 py-3 rounded-full font-bold text-sm transition-all duration-300 border-2 
                 ${!activeBrandId 
-                  ? 'bg-[#1B2A4A] text-white border-[#1B2A4A] shadow-lg scale-105' 
-                  : 'bg-white text-gray-600 border-gray-100 hover:border-[#1B2A4A] hover:text-[#1B2A4A]'}`}
+                  ? 'bg-black text-white border-black shadow-lg scale-105' 
+                  : 'bg-white text-gray-600 border-gray-100 hover:border-black hover:text-black'}`}
             >
               الكل
             </button>
@@ -221,8 +154,8 @@ export default function Storefront({ initialProducts, brands }: StorefrontProps)
                 onClick={() => setActiveBrandId(brand.id)}
                 className={`px-8 py-3 rounded-full font-bold text-sm transition-all duration-300 border-2 
                   ${activeBrandId === brand.id 
-                    ? 'bg-[#1B2A4A] text-white border-[#1B2A4A] shadow-lg scale-105' 
-                    : 'bg-white text-gray-600 border-gray-100 hover:border-[#1B2A4A] hover:text-[#1B2A4A]'}`}
+                    ? 'bg-black text-white border-black shadow-lg scale-105' 
+                    : 'bg-white text-gray-600 border-gray-100 hover:border-black hover:text-black'}`}
               >
                 {brand.name}
               </button>

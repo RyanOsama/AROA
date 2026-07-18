@@ -4,8 +4,8 @@ import ToastProvider from "@/components/ToastProvider";
 import Drawers from "@/components/Drawers";
 
 export const metadata: Metadata = {
-  title: "متجر العطور الفاخرة",
-  description: "أفضل العطور بأسعار منافسة وتجربة تسوق فريدة",
+  title: "AROA PERFUMES | أروى للعطور",
+  description: "AROA PERFUMES - Luxury Scents · Timeless Elegance",
 };
 
 export default function RootLayout({

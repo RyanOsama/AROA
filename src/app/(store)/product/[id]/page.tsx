@@ -23,9 +23,9 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
         <div className="flex flex-col md:flex-row-reverse gap-12 lg:gap-20">
           {/* Image Section - Right side visually in RTL */}
           <div className="w-full md:w-1/2">
-            <div className="relative w-full aspect-[4/5] bg-gray-50 flex items-center justify-center rounded-3xl overflow-hidden border border-gray-100">
+            <div className="relative w-full aspect-[4/5] bg-white flex items-center justify-center rounded-3xl overflow-hidden border border-gray-100">
               {discountPercentage && (
-                <div className="absolute top-6 right-6 px-4 py-1.5 rounded-full text-sm font-black z-10 text-white" style={{ backgroundColor: '#8B7355' }}>
+                <div className="absolute top-6 right-6 px-4 py-1.5 rounded-full text-sm font-black z-10 text-white bg-black">
                   عرض لفترة محدودة
                 </div>
               )}
@@ -34,7 +34,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
                   src={product.imageUrl}
                   alt={product.name}
                   fill
-                  className="object-contain p-8 drop-shadow-2xl"
+                  className="object-contain p-8 drop-shadow-2xl mix-blend-multiply"
                   unoptimized
                 />
               ) : (
@@ -48,14 +48,19 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
           {/* Details Section - Left side visually in RTL */}
           <div className="w-full md:w-1/2 flex flex-col justify-center" dir="rtl">
             <div className="mb-2">
+              {product.brand && (
+                <p className="text-sm tracking-[0.2em] font-bold uppercase mb-2 text-gray-500">
+                  {product.brand.name}
+                </p>
+              )}
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 leading-tight mb-3">
                 {product.name}
               </h1>
               {product.isPackage && (
-                <div className="text-sm font-bold text-gray-500 mb-2">التصنيف: <span style={{ color: '#8B7355' }}>مجموعات العروض</span></div>
+                <div className="text-sm font-bold text-gray-500 mb-2">التصنيف: <span className="text-gray-800">مجموعات العروض</span></div>
               )}
               <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-                <div className="flex gap-1 text-gold-500">
+                <div className="flex gap-1 text-yellow-500">
                   <Star className="w-4 h-4 fill-current" />
                   <Star className="w-4 h-4 fill-current" />
                   <Star className="w-4 h-4 fill-current" />
@@ -148,24 +153,17 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
 
             {/* Policies */}
             <div className="mt-12 pt-8 border-t border-gray-200">
-              <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <Info className="w-5 h-5 text-gray-400" />
-                ملاحظات هامة:
-              </h4>
-              <ul className="space-y-3 text-sm text-gray-600">
-                <li className="flex items-start gap-2">
-                  <div className="mt-1 w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0"></div>
-                  لا يمكن استرجاع عناصر المجموعة إلا بحالة كان المنتج تعرض لخلل/عيب مصنعي.
-                </li>
-                <li className="flex items-start gap-2">
-                  <div className="mt-1 w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0"></div>
-                  يتم الاستبدال أو الاسترجاع خلال 48 ساعة من استلام الطلب فقط.
-                </li>
-              </ul>
-            </div>
-
-            <div className="mt-8 text-sm text-gray-400">
-              رقم الموديل: {product.sku}
+              <div className="grid grid-cols-1 gap-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center shrink-0">
+                    <CheckCircle2 className="w-5 h-5 text-gray-600" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900 text-sm mb-1">ضمان أصالة 100%</h4>
+                    <p className="text-xs text-gray-500">جميع منتجاتنا أصلية ومضمونة</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

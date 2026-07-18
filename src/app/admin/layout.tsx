@@ -13,7 +13,7 @@ export default function AdminLayout({
       {/* Sidebar */}
       <aside className="w-64 bg-white shadow-xl flex flex-col z-20 border-l border-gray-100">
         <div className="p-6 border-b border-gray-100 flex flex-col items-center justify-center gap-3">
-          <img src="/logo/شعار.jpg" alt="شعار المتجر" className="w-20 h-20 object-contain rounded-xl drop-shadow-md" />
+          <img src="/logo/agora-white.png" alt="شعار المتجر" className="w-20 h-20 object-contain drop-shadow-md invert opacity-90" />
           <h1 className="text-xl font-bold tracking-widest text-gray-800">لوحة الإدارة</h1>
         </div>
         <nav className="mt-6 flex-1">

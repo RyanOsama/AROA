@@ -259,7 +259,7 @@ export default function PackageForm({ perfumes, brands, initialData }: { perfume
       <button 
         type="submit" 
         disabled={loading || selectedPerfumes.length === 0} 
-        className="w-full bg-[#1B2A4A] hover:bg-[#2D4172] text-white font-bold py-3 rounded-xl flex justify-center items-center gap-2 transition-colors disabled:opacity-50 shadow-md text-sm"
+        className="w-full bg-black hover:bg-neutral-800 text-white font-bold py-3 rounded-xl flex justify-center items-center gap-2 transition-colors disabled:opacity-50 shadow-md text-sm"
       >
         {loading ? (
           <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />

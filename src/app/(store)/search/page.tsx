@@ -72,12 +72,12 @@ export default async function SearchPage({
                     style={{ aspectRatio: '4/5' }}
                   >
                     {discountPercentage && (
-                      <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold z-10 bg-[#1B2A4A] text-[#C9A96E]">
+                      <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold z-10 bg-black text-white">
                         خصم {discountPercentage}%
                       </div>
                     )}
                     {product.isPackage && !discountPercentage && (
-                      <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold z-10 bg-[#8B7355] text-white">
+                      <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold z-10 bg-gray-800 text-white">
                         عرض خاص
                       </div>
                     )}
@@ -100,6 +100,11 @@ export default async function SearchPage({
                   </div>
 
                   <div className="p-5 flex flex-col flex-grow bg-white border-t border-gray-50" dir="rtl">
+                    {product.brand && (
+                      <p className="text-[10px] tracking-widest font-bold uppercase mb-1 text-gray-500">
+                        {product.brand.name}
+                      </p>
+                    )}
                     <h3 className="font-bold text-gray-900 text-base mb-1 line-clamp-1">{product.name}</h3>
                     <p className="text-xs text-gray-500 line-clamp-2 mb-4 flex-grow leading-relaxed">{product.description}</p>
 
@@ -111,7 +116,7 @@ export default async function SearchPage({
                           <div className="text-xs text-gray-400 line-through mt-0.5">{Number(product.originalPrice)} ر.س</div>
                         )}
                       </div>
-                      <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center group-hover:bg-[#1B2A4A] group-hover:text-white transition-colors text-gray-700">
+                      <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-colors text-gray-700">
                         <ShoppingBag className="w-4 h-4" />
                       </div>
                     </div>

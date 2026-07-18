@@ -7,7 +7,6 @@ export default async function StorePage() {
   const { products } = await getProducts();
   const { brands } = await getBrands();
 
-  // Take first 5 products for hero display
   const heroProducts = (products || []).slice(0, 5);
 
   return (
@@ -17,7 +16,7 @@ export default async function StorePage() {
         stats={{ 
           products: products?.length || 0, 
           brands: brands?.length || 0,
-          clients: 120 // Realistic initial number
+          clients: 120
         }} 
       />
       <div id="brands">
