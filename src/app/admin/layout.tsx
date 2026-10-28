@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Package, PlusCircle, Home, LogOut, Building2, Gift } from 'lucide-react';
+import { Package, PlusCircle, Home, LogOut, Building2, Gift, Sparkles } from 'lucide-react';
 import { logoutAction } from '@/actions/auth';
 
 
@@ -17,6 +17,10 @@ export default function AdminLayout({
           <h1 className="text-xl font-bold tracking-widest text-gray-800">لوحة الإدارة</h1>
         </div>
         <nav className="mt-6 flex-1">
+          <Link href="/admin/hero" className="flex items-center px-4 py-3 mx-2 my-1 rounded-lg transition-all text-gray-700 hover:bg-gold-50 hover:text-gold-700 hover:translate-x-1">
+            <Sparkles className="w-5 h-5 ml-3" />
+            <span className="font-medium">عطر الموسم (الواجهة)</span>
+          </Link>
           <Link href="/admin/products" className="flex items-center px-4 py-3 mx-2 my-1 rounded-lg transition-all text-gray-700 hover:bg-gold-50 hover:text-gold-700 hover:translate-x-1">
             <Package className="w-5 h-5 ml-3" />
             <span className="font-medium">المنتجات</span>

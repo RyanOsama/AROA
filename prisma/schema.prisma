@@ -3,9 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Brand {
@@ -74,3 +73,19 @@ model LoginAttempt {
   blockedUntil DateTime?
   updatedAt    DateTime  @updatedAt
 }
+
+model HeroSettings {
+  id          String   @id @default("default-hero")
+  title       String?  @default("")
+  subtitle    String?  @default("")
+  buttonText  String   @default("اكتشف العطر")
+  imageUrl    String   @default("/hero/featured-amber.png")
+  productId   String?
+  buttonPosY  Int?     @default(65)
+  buttonPosX  Int?     @default(50)
+  buttonColor String?  @default("white")
+  buttonSize  String?  @default("md")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+

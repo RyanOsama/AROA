@@ -1,54 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { writeFile, mkdir } from 'fs/promises';
+import path from 'path';
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    const data = await request.formData();
-    const file: File | null = data.get('file') as unknown as File;
+    const formData = await req.formData();
+    const file = formData.get('file') as File;
 
     if (!file) {
-      return NextResponse.json({ success: false, error: 'لم يتم العثور على الصورة' }, { status: 400 });
+      return NextResponse.json({ error: 'لم يتم إرسال أي ملف' }, { status: 400 });
     }
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    const sanitizedName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
+    const filename = `${uniqueSuffix}-${sanitizedName}`;
 
-    if (!supabaseUrl || !supabaseKey) {
-      console.error("Missing Supabase credentials in env");
-      return NextResponse.json({ success: false, error: 'إعدادات رفع الصور غير مكتملة' }, { status: 500 });
-    }
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+    await mkdir(uploadDir, { recursive: true });
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    const filePath = path.join(uploadDir, filename);
+    await writeFile(filePath, buffer);
 
-    // Create unique filename
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const filename = uniqueSuffix + '-' + file.name.replace(/[^a-zA-Z0-9.]/g, '_');
-    
-    // Upload directly to Supabase Storage REST API
-    const uploadUrl = `${supabaseUrl}/storage/v1/object/images/${filename}`;
-    
-    const response = await fetch(uploadUrl, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${supabaseKey}`,
-        'apikey': supabaseKey,
-        'Content-Type': file.type || 'image/png',
-      },
-      body: buffer,
-    });
-
-    if (!response.ok) {
-      const errData = await response.text();
-      console.error("Supabase Storage error:", errData);
-      return NextResponse.json({ success: false, error: 'فشل رفع الصورة إلى التخزين السحابي' }, { status: 500 });
-    }
-
-    // Return the public URL
-    const fileUrl = `${supabaseUrl}/storage/v1/object/public/images/${filename}`;
-    
-    return NextResponse.json({ success: true, url: fileUrl });
-  } catch (error) {
-    console.error("Error uploading file:", error);
-    return NextResponse.json({ success: false, error: 'حدث خطأ غير متوقع أثناء الرفع' }, { status: 500 });
+    const publicUrl = `/uploads/${filename}`;
+    return NextResponse.json({ url: publicUrl });
+  } catch (error: any) {
+    console.error('Local upload error:', error);
+    return NextResponse.json({ error: error.message || 'فشل في رفع الصورة' }, { status: 500 });
   }
 }

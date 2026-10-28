@@ -1,0 +1,14 @@
+{
+  "id": "default-hero",
+  "title": "",
+  "subtitle": "",
+  "buttonText": "عرض العطر",
+  "imageUrl": "/uploads/1793220833850-636221639-ChatGPT_Image_Oct_28__2026__11_53_38_PM.png",
+  "productId": "cmtu55q9d000iduija4khphch",
+  "buttonPosY": 77,
+  "buttonPosX": 30,
+  "buttonColor": "glass",
+  "buttonSize": "md",
+  "imageFit": "cover",
+  "updatedAt": "2026-10-28T20:54:55.820Z"
+}
